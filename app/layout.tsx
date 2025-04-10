@@ -24,7 +24,7 @@ export default function RootLayout({
       <link rel="icon" href="/assets/icons/favicon.ico" sizes="any" />
     </head>
     <body className={poppins.className}>
-      <div className="w-100 bg-gray-400 p-5 m-5">
+      <div className="w-30 bg-gray-400 p-5 m-5">
       {children}
       </div>
       </body>

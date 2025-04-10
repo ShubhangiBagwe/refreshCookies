@@ -1,0 +1,296 @@
+*DMARC*#########  Dashboard ##########
+
+Top Countries :->
+Params ==>{
+  'startDate' => '2025-01-01',
+  'endDate' => '2025-01-07',
+  'funcName' => 'countrytable' }Response  ==>[
+  [ 'United States', 'AMAZON-02', 257395068 ],
+  [ 'United States', 'GOOGLE', 3130252 ],
+  [ 'United States', 'OMNITURE', 2430809 ],
+  [ 'United States', 'GOOGLE-CLOUD-PLATFORM', 237788 ],
+  [ 'United States', 'MICROSOFT-CORP-MSN-AS-BLOCK', 80220 ],
+  [ 'Ireland', 'GOOGLE', 25056 ],
+  [ 'United States', 'UNIFIEDLAYER-AS-1', 23230 ],
+  [ 'United States', 'AMAZON-AES', 22542 ],
+  [ 'Korea, Republic of', 'MICROSOFT-CORP-MSN-AS-BLOCK', 18050 ],
+  [ 'Hong Kong', 'MICROSOFT-CORP-MSN-AS-BLOCK', 17141 ]
+]DMARC,DKIM,SPF HighlightData :->Params ==> {
+  'domainName' => 'hdfcbank.net',
+  'startDate' => '2025-01-01',
+  'endDate' => '2025-01-07' 
+ },Response  ==>domainHighlight {
+  form: {
+    date_range: null,
+    domains: [],
+    end_date: '2025-01-07',
+    start_date: '2025-01-01'
+  },
+  highlight_data: {
+    comp_per_trophy: 99.88,
+    dkim_per_key: 99.84,
+    dkimcomplaint: 761336968,
+    dmarc_compliant: 761641202,
+    spf_per_exclamation: 98.91,
+    spfcomplaint: 754229429,
+    volume: 762578146
+  },
+  username: 'Shubhangi Bagwe',
+  userrole: 'Super Admin'
+}Mail Volume Trend :->Params ==>{
+  'startDate' => '2025-01-01',
+  'endDate' => '2025-01-07',
+  'funcName' => 'columnchart' }Response  ==>
+[
+  [ 'Day', 'pass', 'quarantine', 'reject' ],
+  [ '01/01', 100004299, 14249, 20799 ],
+  [ '02/01', 302874923, 16934, 29831 ],
+  [ '03/01', 106863993, 5685, 15443 ],
+  [ '04/01', 90484384, 3908, 12326 ],
+  [ '05/01', 161627173, 5251, 12814 ],
+  [ '06/01', 555030, 54, 26401 ],
+  [ '07/01', 4275, 6, 351 ]
+] Result Categories :->Params ==>{ 'startDate' => '2025-01-01',
+ 'endDate' => '2025-01-07', 
+'funcName' => 'barchart' } Response  ==>
+[
+  [ 'disposition', 'volume', { role: 'style' } ],
+  [ 'pass', 762414077, '#3c763d' ],
+  [ 'quarantine', 46087, '#337ab7' ],
+  [ 'reject', 117965, '#a94442' ]
+]########## Reports ##########Per Host :->Params ==>{
+ 'startDate' => '2025-01-01',
+ 'endDate' => '2025-01-07', 
+'hostname' => 'all' ,
+}Response  ==>[
+    {
+        "complaint": 100.0,
+        "dkimcomplaint": 100.0,
+        "dkimpass": 100.0,
+        "org_volume": 390356037,
+        "sending_org": "aclmobile.net",
+        "spfcomplaint": 100.0,
+        "spfpass": 100.0
+    },
+    {
+        "complaint": 100.0,
+        "dkimcomplaint": 100.0,
+        "dkimpass": 100.0,
+        "org_volume": 226886254,
+        "sending_org": "amazonses.com",
+        "spfcomplaint": 100.0,
+        "spfpass": 100.0
+    },
+per-host-drill1 ==> onclick() ==> “aclmobile.net”Params ==>
+{
+  'startDate' => '2025-01-01',
+  'endDate' => '2025-01-07',
+  'orgName' => 'aclmobile.net',
+  'disposition' => 'all' 
+}Response  ==>{
+    "data": [
+        {
+            "complaint": 100.0,
+            "dkimcomplaint": 100.0,
+            "dkimpass": 100.0,
+            "host_details": [
+                {
+                    "_id": {
+                        "disposition": "none",
+                        "dkim_align": "pass",
+                        "dkim_domain": [
+                            "hdfcbank.net",
+                            "aclmobile.net"
+                        ],
+                        "dkim_result": [
+                            "pass",
+                            "pass"
+                        ],
+                        "dkim_selector": [
+                            "acls01",
+                            "5nXKKHgBnyGAcLwvMLZIq"
+                        ],
+                        "domain": "hdfcbank.net",
+                        "eval_dkim": "pass",
+                        "eval_spf": "pass",
+                        "header_from": "hdfcbank.net",
+                        "host": "o13.smtp-out.aclmobile.net",
+                        "ip_address": "103.54.236.13",
+                        "org": "aclmobile.net",
+                        "spf_align": "pass",
+                        "spf_domain": "comm.hdfcbank.net",
+                        "spf_result": "pass"
+                    },
+                    "volume": 78067757
+                }
+            ],
+            "host_volume": 78067757,
+            "ip_address": "103.54.236.13",
+            "sending_host": "o13.smtp-out.aclmobile.net",
+            "spfcomplaint": 100.0,
+            "spfpass": 100.0
+        },…… more items
+]}Per Result :->Params ==> {
+  'domainName' => 'hdfcbank.net',
+  'startDate' => '2025-01-01',
+  'endDate' => '2025-01-07' 
+ },
+Response  ==>{
+  data: [
+    {
+      name: 'DMARC compatible - fully aligned', 
+      value: 'compatfullalign',
+      volume: 753933911
+    },
+    {
+      name: 'DMARC compatible - SPF aligned',
+      value: 'compatspfalign',
+      volume: 303884
+    },
+    {
+      name: 'DMARC compatible - DKIM aligned',
+      value: 'compatdkimalign',
+      volume: 7411980
+    },
+    {
+      name: 'DKIM & SPF validated - DKIM aligned & SPF not aligned',
+      value: 'dkimspfvalidspfnotalign',
+      volume: 44
+    },
+    {
+      name: 'DKIM & SPF validated - SPF aligned & DKIM not aligned',
+      value: 'dkimspfvaliddkimnotalign',
+      volume: 350
+    },
+    {
+      name: 'DKIM validated - not aligned',
+      value: 'dkimvalidnotalign',
+      volume: 51
+    },
+    { name: 'DKIM/SPF failed', value: 'dkimspffailed', volume: 891245 },
+    {
+      name: 'DKIM/SPF failed - Forwarded',
+      value: 'dkimspffailedforward',
+      volume: 45722
+    }
+  ],
+  form: { domains: [], end_date: '2025-01-07', start_date: '2025-01-01' },
+  username: 'Shubhangi Bagwe',
+  userrole: 'Super Admin'
+}per-result-driil1 ==> onclick(value) =>”compatfullalign”Params ==>{
+  'domains' => [],
+  'startDate' => '2025-01-01',
+  'endDate' => '2025-01-07',
+  'r_category' => 'compatfullalign' }Response  ==>[
+    {
+        "org_name": "aclmobile.net",
+        "r_category": "compatfullalign",
+        "volume": 248267580
+    },
+    {
+        "org_name": "amazonses.com",
+        "r_category": "compatfullalign",
+        "volume": 171203073
+    },
+    {
+        "org_name": "hdfcbank.net",
+        "r_category": "compatfullalign",
+        "volume": 145666114
+    },per-result-drill2 ==>  onclick(org_name) => “aclmobile.net”Params ==>{
+  'domains' => [],
+  'startDate' => '2025-01-01',
+  'endDate' => '2025-01-07',
+  'r_category' => 'compatfullalign’,
+ ‘orgName’ => ‘aclmobile.net’ }
+Response  ==> {
+        "_id": {
+            "host": "o13.smtp-out.aclmobile.net",
+            "ip_address": "103.54.236.13",
+            "org": "aclmobile.net"
+        },
+        "host_details": [
+            {
+                "_id": {
+                    "disposition": "none",
+                    "dkim_domain": [
+                        "hdfcbank.net",
+                        "aclmobile.net"
+                    ],
+                    "dkim_result": [
+                        "pass",
+                        "pass"
+                    ],
+                    "domain": "hdfcbank.net",
+                    "host": "o13.smtp-out.aclmobile.net",
+                    "ip_address": "103.54.236.13",
+                    "org": "aclmobile.net",
+                    "spf_domain": "comm.hdfcbank.net",
+                    "spf_result": "pass"
+                },
+                "volume": 49658889
+            }
+        ],
+        "host_volume": 49658889,
+        "r_category": "compatfullalign"
+    },
+}Per Organization :->Params ==>{
+  'domainName' => 'hdfcbank.net',
+  'startDate' => '2025-01-01',
+  'endDate' => '2025-01-07'
+ }Response  ==>{
+  data: [
+    {
+      complaint: 99.89,
+      dkimcomplaint: 99.88,
+      dkimpass: 99.88,
+      reporting_org: 'google.com',
+      spfcomplaint: 98.92,
+      spfpass: 98.92,
+      volume: 755002570
+    },
+    {
+      complaint: 99.56,
+      dkimcomplaint: 95.74,
+      dkimpass: 95.74,
+      reporting_org: 'Outlook.com',
+      spfcomplaint: 98.62,
+      spfpass: 98.62,
+      volume: 5667251
+    },]}Forensic :->Params ==>{ 
+'startDate' => '2025-01-01',
+ 'endDate' => '2025-01-07' 
+}Response  ==>[
+    {
+        "count": 75,	 "details": [
+            {
+                "auth_failure": [
+                    "dmarc"
+                ],
+                "domain": "hdfcbank.net",
+                "feedback_headers": "Feedback-Type: auth-failure\nUser-Agent: Lua/1.0\nVersion: 1.0\nOriginal-Mail-From: vasunder1987+caf_=a.vasunderreddy=itc.in@gmail.com\nOriginal-Rcpt-To: a.vasunderreddy@itc.in\nArrival-   Date: Wed, 01 Jan 2025 12:13:33 +0530\nMessage-ID: <6774e40e.620a0220.1b8dd4.27d9SMTPIN_ADDED_BROKEN@mx.google.com>\nAuthentication-Results: dmarc=fail (p=reject, dis=reject) header.from=hdfcbank.net\nSource-IP: 209.85.167.46\nDelivery-Result: smg-policy-action\nAuth-Failure: dmarc\nReported-Domain: hdfcbank.net\n\n",
+                "mail_from": "vasunder1987+caf_=a.vasunderreddy=itc.in@gmail.com",
+                "mail_headers": "Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])\n\t(using TLS with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))\n\t(Client did not present a certificate).             \n\tby mx3.itc.in (mail server) with SMTP id 06.9F.08910.414E4776; Wed,  1 Jan 2025 12:13:33 +0530 (IST)Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-53e3a227b82so9974937e87.0\n        for <a.vasunderreddy@itc.in>; Tue, 31 Dec 2024 22:43:31 -0800 (PST)Received: by 2002:a05:6022:1129:b0:64:619:ee3c with SMTP id bd41csp8516149lab;\n        Tue, 31 Dec 2024 22:43:26 -0800 (PST)Received: from o14.smtp-out.aclmobile.net (o14.smtp-out.aclmobile.net. [103.54.236.14])\n ……………….”,
+                "s_no": 1,
+                "source_host": "mail-lf1-f46.google.com",
+                "source_ip": "209.85.167.46"
+            },
+        "subject": "❗  You have done a UPI txn. Check details!"
+    },{
+        "count": 23,	 "details": [
+            {
+                "auth_failure": [
+                    "dmarc"
+                ],
+                "domain": "hdfcbank.net",
+                               "feedback_headers": "Feedback-Type: auth-failure\nVersion: 1\nUser-Agent: OpenDMARC-Filter/1.3.2\nAuth-Failure: dmarc\nAuthentication-Results: box.vinay.in; dmarc=fail header.from=hdfcbank.net\nOriginal-Envelope-Id: EFABE17A358\nOriginal-Mail-From: vinayramdas+caf_=vinay=vinay.in@gmail.com\nSource-IP: 209.85.216.44 (mail-pj1-f44.google.com)\nReported-Domain: hdfcbank.net\n\n",
+                "mail_from": "deepaksa.itc+caf_=SA.Deepak=itc.in@gmail.com",
+                "mail_headers": "Authentication-Results: mx.google.com;\r\n       dkim=pass header.i=@hdfcbank.net header.s=acls01 header.b=WE5gMn4O;\r\n        ……………….”,
+               "s_no": 77,
+                "source_host": "mail-pj1-f41.google.com",
+                "source_ip": "209.85.216.41"
+
+            },
+        "subject": "View: Account update for your HDFC Bank A/c"
+    },
+]Thank You.
+

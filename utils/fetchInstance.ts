@@ -1,6 +1,9 @@
+"use server";
+
 import { logout } from "@/lib/actions/auth.action";
 import { signToken, verifyToken } from "./token";
 import { cookies } from "next/headers";
+import { refreshTokens } from "@/lib/actions/refresh.action";
 
 export const fetchWithAuth = async (
   url: string,
@@ -14,15 +17,11 @@ export const fetchWithAuth = async (
 ): Promise<Response> => {
   const cookieStore = cookies();
   let signedAccessToken = cookieStore.get("access_token")?.value;
-  console.log("Signed access token:", signedAccessToken);
-
   let accessToken;
   let response;
 
-  // Step 1: Try with existing access token
   try {
     accessToken = verifyToken(signedAccessToken!);
-    console.log("Decoded access token:", accessToken);
 
     options = {
       ...options,
@@ -33,66 +32,23 @@ export const fetchWithAuth = async (
       },
     };
 
-    response = await fetch(
-      `${process.env.NEXT_BACKEND_API_URL}${url}`,
-      options
-    );
-    console.log("Initial fetch status:", response.status);
-  } catch (error) {
-    console.error("Access token verification failed:", error);
+    response = await fetch(`${process.env.NEXT_BACKEND_API_URL}${url}`, options);
+  } catch (err) {
+    console.log("Initial token verification failed:", err);
   }
 
-  // Step 2: Refresh if needed
-  if (!response?.ok) {
-    console.log("401 to refreshh tokennn", response);
-    console.log("response.status", response?.status);
-    const signedRefreshToken = cookieStore.get("refresh_token")?.value;
-    console.log("signedRefreshToken", signedRefreshToken);
-    if (!signedRefreshToken) {
-      await logout();
-      return new Response(
-        JSON.stringify({ success: false, message: "No refresh token" }),
-        { status: 401 }
-      );
-    }
+  // If no response or failed response, try to refresh
+  if (!response || !response.ok) {
+    console.log("Refreshing token...");
 
-    console.log(
-      "Before refresh - access_token:",
-      cookieStore.get("access_token")?.value
-    );
-    console.log(
-      "Before refresh - refresh_token:",
-      cookieStore.get("refresh_token")?.value
-    );
-    const refreshResponse = await fetch(
-      `${process.env.NEXT_API_BASE_URL}/api/refresh`,
-      {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-          Cookie: cookieStore.toString(),
-        },
-      }
-    );
-    console.log("Refresh response status:", refreshResponse.status);
-    console.log(
-      "Refresh response cookies:",
-      refreshResponse.headers.get("Set-Cookie")
-    );
-    const refreshData = await refreshResponse.json();
-    console.log("Refresh data:", refreshData);
-    console.log(
-      "After refresh - access_token:",
-      cookieStore.get("access_token")?.value
-    );
+    const refreshData = await refreshTokens(); // use server action
 
     if (refreshData.success) {
-      const newSignedAccessToken = signToken(refreshData.accessToken, 60);
-      accessToken = verifyToken(newSignedAccessToken); // Decoded token
-      console.log("New signed access token:", newSignedAccessToken);
-      console.log("New decoded access token:", accessToken);
+      // Get new access token
+      const newSignedAccessToken = signToken(refreshData.accessToken);
+      accessToken = verifyToken(newSignedAccessToken);
 
+      // Update request options with refreshed token
       options = {
         ...options,
         headers: {
@@ -107,9 +63,8 @@ export const fetchWithAuth = async (
           `${process.env.NEXT_BACKEND_API_URL}${url}`,
           options
         );
-        console.log("Retry fetch status:", response.status);
-      } catch (error) {
-        console.error("Retry fetch failed:", error);
+      } catch (retryErr) {
+        console.error("Retry fetch failed:", retryErr);
         return new Response(
           JSON.stringify({ success: false, message: "Retry request failed" }),
           { status: 500 }

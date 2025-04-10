@@ -23,8 +23,8 @@ export async function login(
     console.log(data, "login response");
 
     if (response.status === 200) {
-      const accessToken = signToken(data.accessToken, 1); // Sign the original access token
-      const refreshToken = signToken(data.refreshToken, "7d"); // Sign the original refresh token
+      const accessToken = signToken(data.accessToken); // Sign the original access token
+      const refreshToken = signToken(data.refreshToken); // Sign the original refresh token
       console.log("accessToken", accessToken);
       console.log("refreshToken", refreshToken);
       cookieStore.set("access_token", accessToken, {

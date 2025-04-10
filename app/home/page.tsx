@@ -1,21 +1,29 @@
-
+"use client"
 import { getUserDetails } from "@/lib/actions/user.action";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import Logoutbutton from "../components/logoutbutton";
+import { useEffect, useState } from "react";
 
-export default async function HomePage() {
-  const cookieStore = cookies();
-  const refreshToken = cookieStore.get("refresh_token")?.value;
-  const userDetails = await getUserDetails()
+export default function HomePage() {
+  const [userDetails,setUserDetails] = useState()
+  const [loading,setLoading] = useState(true)
 
-  if (!refreshToken) {
-    redirect("/login");
-  } 
+  console.log(userDetails,"userDetailsuserDetailsuserDetails")
+
+  const userData = async()=>{
+    const userRes = await getUserDetails()
+    setUserDetails(userRes)
+    setLoading(false)
+  }
+
+  useEffect(()=>{
+    userData()
+  },[])
+
+  if (loading) return <div>Loading...</div>;
 
   return (
     <div>
-      <h1>Welcome, {userDetails.username}</h1>
+      <h1>Welcome, {JSON.stringify(userDetails)}</h1>
       <Logoutbutton/>
     </div>
   );
